@@ -8,6 +8,8 @@ float obstacleY2 = random(50,400);
 float obstacleX2 = 750;
 
 boolean alive = true;
+boolean running = false;
+
 int score = 0;
 int val;
 import processing.serial.*;
@@ -22,7 +24,7 @@ void setup(){
   size(1000,500);
   refresh();
   obstacle();
-  ballY = 0;
+  ballY = 400;
   gravity = .025;
   velocity = 0;
   obstacleY = random(50, 200);
@@ -96,7 +98,7 @@ void collisionCheck(){
 void restartScreen(){
   textSize(35);
   fill(10,10,10);
-  text("Game Over",370,65);
+  text("Game Over",400,65);
 }
 
 
@@ -110,6 +112,21 @@ void scoreCheck(){
 }
 
 void draw(){
+  if(running == false) {
+    button("Scream to start", 350, 400); //centered
+    
+    if(keyPressed) {
+      running = true;
+      velocity=0;
+    }
+  }
+  
+  if(running == true) {
+     runGame(); 
+  }
+}
+
+void runGame(){
   if (alive){
     obstacle();
     refresh();
@@ -133,3 +150,18 @@ void draw(){
   }
   scoreCheck();
 }
+
+void button(String label,int ypos, int xpos){
+    textSize(20);
+    fill(218);
+    stroke(141);
+    rect(xpos, ypos, btnWidth, btnHeight, 10);
+    textAlign(CENTER, CENTER);
+    fill(0);
+    text(label, xpos + (btnWidth / 2), ypos + (btnHeight / 2));
+}
+
+int btnXpos;
+int btnYpos;
+int btnWidth = 200;
+int btnHeight = 50;
